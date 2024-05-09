@@ -1,0 +1,7 @@
+{
+	"name": "StackOverflowETL_weekly",
+	"properties": {
+		"description": "pipeline handles weekly ETL tasks for the StackOverflow dataset. These files are also stored in Parquet format. Executes this update process once every week. Specifically targers the Post folder.",
+		"annotations": []
+	}
+}

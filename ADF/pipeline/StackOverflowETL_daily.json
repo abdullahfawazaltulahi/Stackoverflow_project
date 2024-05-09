@@ -1,0 +1,7 @@
+{
+	"name": "StackOverflowETL_daily",
+	"properties": {
+		"description": "pipeline is responsible for daily data extraction, transformation, and loading (ETL) tasks related to the stackOverflow dataset. Connects to the RDS Postgres database. Specifically targets the Users and PostTypes tables. These files are also stored in Parquet format. Executes this update process once every day.",
+		"annotations": []
+	}
+}
