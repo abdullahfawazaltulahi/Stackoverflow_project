@@ -1,5 +1,5 @@
 {
-	"name": "Posts_wcd",
+	"name": "Posts_publicBlob",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "wcd_public_blob",

@@ -49,7 +49,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Posts_wcd",
+						"referenceName": "Posts_publicBlob",
 						"type": "DatasetReference"
 					}
 				],
