@@ -1,7 +1,7 @@
 {
 	"name": "my_blob",
 	"properties": {
-		"description": "First we need to choose the Authentication type and that should be the 'System assigned managed identity' and we give this link grant from the Storage account",
+		"description": "First, we need to choose the Authentication type and that should be the 'System assigned managed identity' and we give this link grant from the Storage account, and we choose the system assigned managed identity for Simplified Authentication and the ability to eliminates the need for storing and managing sensitive credentials or keys, reducing the risk of unauthorized access or credential leakage, also can assign specific roles and permissions to the managed identity, controlling the level of access it has to various Azure resources.",
 		"annotations": [],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
