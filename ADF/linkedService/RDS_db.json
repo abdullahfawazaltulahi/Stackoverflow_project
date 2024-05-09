@@ -2,6 +2,7 @@
 	"name": "RDS_db",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"description": "here for this link service we define the server name and for ssh mode we allowed that will give us Secure Remote Access and secure data transfer between Azure Data Factory and the target server and we want to build Secure Configuration that ensure that only authorized users can access the target server and perform actions within Azure Data Factory.",
 		"annotations": [],
 		"type": "PostgreSqlV2",
 		"typeProperties": {
@@ -9,9 +10,9 @@
 			"port": 5432,
 			"database": "stack",
 			"username": "postgres",
-			"sslMode": 2,
+			"sslMode": 1,
 			"authenticationType": "Basic",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDMxOUZBQzk0LUM2RkYtNDk0OS04MjY4LURGMUY3QjE5OTJCOF81NjVjZDY4Zi0yNDg0LTRjZjQtOTQ0ZC03MmVlZDdhYTg1OTciDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDMxMjZEREQ1LTBBNjgtNEI1Mi04QzQ0LThBREZCQkYwRDJFNF9mYWVlOTgwNC00NzIzLTQ0OGEtOTMwZS03YzZmMGEwNDlkZGIiDQp9"
 		}
 	}
 }
