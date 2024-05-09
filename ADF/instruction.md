@@ -1,2 +1,0 @@
-- you need to check the name of the Storage account and the contianer and also the folders 
-- after check everything is same you need to test connection before pull request 
