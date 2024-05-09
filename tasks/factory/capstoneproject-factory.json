@@ -1,0 +1,9 @@
+{
+	"name": "capstoneproject-factory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "4114d1ff-bce5-4776-8314-167c8ae4131e",
+		"tenantId": "13c2b828-4246-4ecb-8378-092d2d1e44e6"
+	}
+}

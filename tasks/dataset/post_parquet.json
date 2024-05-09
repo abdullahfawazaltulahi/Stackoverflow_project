@@ -1,0 +1,21 @@
+{
+	"name": "post_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "my_blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "landing/posts",
+				"container": "capstoneprojcontainer"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
