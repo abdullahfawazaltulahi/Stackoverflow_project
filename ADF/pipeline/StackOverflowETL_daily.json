@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "post tabel",
+				"name": "SOF-posts",
+				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
