@@ -1,0 +1,20 @@
+{
+	"name": "post_destination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "my_blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Landing/StackOverFlow-Post",
+				"container": "stackoverflow-container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

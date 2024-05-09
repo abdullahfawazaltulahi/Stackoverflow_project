@@ -31,8 +31,7 @@
 					"sink": {
 						"type": "ParquetSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "MergeFiles"
+							"type": "AzureBlobStorageWriteSettings"
 						},
 						"formatSettings": {
 							"type": "ParquetWriteSettings"
@@ -50,13 +49,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Posts_publicBlob",
+						"referenceName": "post_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "post_parquet",
+						"referenceName": "post_destination",
 						"type": "DatasetReference"
 					}
 				]
