@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "daily",
+					"referenceName": "StackOverflowETL_daily",
 					"type": "PipelineReference"
 				}
 			}
