@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "capstoneproject-factory"
+		},
+		"RDS_db_password": {
+			"value": ""
+		},
+		"my_blob_connectionString": {
+			"value": ""
+		},
+		"wcd_public_blob_connectionString": {
+			"value": ""
+		},
+		"RDS_db_properties_typeProperties_server": {
+			"value": "de-rds.czm23kqmbd6o.ca-central-1.rds.amazonaws.com"
+		},
+		"RDS_db_properties_typeProperties_database": {
+			"value": "stack"
+		},
+		"RDS_db_properties_typeProperties_username": {
+			"value": "postgres"
+		}
+	}
+}
