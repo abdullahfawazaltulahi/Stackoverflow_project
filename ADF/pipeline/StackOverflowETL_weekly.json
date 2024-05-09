@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "Users",
+				"description": "this is the user data and connect to the PostGreSQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
