@@ -1,0 +1,28 @@
+{
+	"name": "Archvie_destination",
+	"properties": {
+		"description": "this dataset will be the destination of files that from source to archive and save it ",
+		"linkedServiceName": {
+			"referenceName": "my_blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"folderPath": "Archive",
+				"container": "stackoverflow-container"
+			}
+		}
+	}
+}
