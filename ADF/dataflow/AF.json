@@ -1,0 +1,23 @@
+{
+	"name": "AF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "archivingFile",
+					"description": "here we will archive the files that in the main folder into archive folder and we keep it for future need."
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     moveFiles: ['Landing','Archive'],",
+				"     rowUrlColumn: 'FileName',",
+				"     wildcardPaths:['*.csv']) ~> archivingFile"
+			]
+		}
+	}
+}
