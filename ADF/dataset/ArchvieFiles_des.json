@@ -19,7 +19,7 @@
 					"value": "@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{item()}",
 					"type": "Expression"
 				},
-				"folderPath": "Archive",
+				"folderPath": "Archive/csv",
 				"container": "stackoverflow-container"
 			},
 			"columnDelimiter": ",",
