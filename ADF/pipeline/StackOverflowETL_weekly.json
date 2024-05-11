@@ -6,7 +6,14 @@
 				"name": "Users",
 				"description": "this is the user data and connect to the PostGreSQL",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -56,7 +63,14 @@
 			{
 				"name": "Post_Type",
 				"type": "Copy",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -115,7 +129,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data post_type",
+							"name": "Copy data post_type1111",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -139,12 +153,25 @@
 									}
 								},
 								"sink": {
-									"type": "BinarySink",
+									"type": "DelimitedTextSink",
 									"storeSettings": {
 										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
 									}
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
@@ -154,7 +181,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Archvie_destination",
+									"referenceName": "ArchvieFiles_des",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": "@item()"
@@ -163,7 +190,7 @@
 							]
 						},
 						{
-							"name": "Copy data usert",
+							"name": "Copy data user1111",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -187,12 +214,25 @@
 									}
 								},
 								"sink": {
-									"type": "BinarySink",
+									"type": "DelimitedTextSink",
 									"storeSettings": {
 										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
 									}
 								},
-								"enableStaging": false
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
@@ -202,7 +242,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Archvie_destination",
+									"referenceName": "ArchvieFiles_des",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": "@item()"
