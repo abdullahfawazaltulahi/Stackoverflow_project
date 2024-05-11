@@ -8,7 +8,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "ForEach1",
+						"activity": "Archvie files Weekly",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -65,7 +65,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "ForEach1",
+						"activity": "Archvie files Weekly",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -118,7 +118,7 @@
 				]
 			},
 			{
-				"name": "ForEach1",
+				"name": "Archvie files Weekly",
 				"type": "ForEach",
 				"dependsOn": [],
 				"userProperties": [],
