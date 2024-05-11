@@ -1,5 +1,7 @@
 # StackOverflow Data Analysis and Topic Classification
-![Uploading project description.png…]()
+![project description](https://github.com/abdullahfawazaltulahi/Stackoverflow_project/assets/63244923/d9fd05c7-7670-45c9-bef0-1d65ad20adb3)
+
+
 
 ## Objective:
 The objective of this Big Data Engineering project is to ingest data from multiple sources, including a Postgres database and an Azure Storage Blob container, into a Data Lake in Azure. The project involves data transformation, running a machine learning model to classify post topics, and generating a report using Azure Synapse.
