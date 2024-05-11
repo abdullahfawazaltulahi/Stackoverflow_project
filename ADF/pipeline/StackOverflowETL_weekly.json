@@ -115,7 +115,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "Copy data post_type",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -149,6 +149,54 @@
 							"inputs": [
 								{
 									"referenceName": "PostType_destination",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Archvie_destination",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": "@item()"
+									}
+								}
+							]
+						},
+						{
+							"name": "Copy data usert",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "User_destination",
 									"type": "DatasetReference"
 								}
 							],
