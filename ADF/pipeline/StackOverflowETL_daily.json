@@ -8,7 +8,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Archvie files daily",
+						"activity": "Archvie_files_daily",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -68,11 +68,11 @@
 				]
 			},
 			{
-				"name": "Archvie files daily",
+				"name": "Archvie_files_daily",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Get Metadata1",
+						"activity": "getmetadata_filename",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -81,14 +81,22 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@split('*.parquet', ',')",
+						"value": "@activity('getmetadata_filename').output.childItems",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Post11",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Wait1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -103,7 +111,7 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*.parquet",
+										"wildcardFileName": ".parquet",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -131,8 +139,11 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "post_destination",
-									"type": "DatasetReference"
+									"referenceName": "post_destination_af",
+									"type": "DatasetReference",
+									"parameters": {
+										"@dataset().FileName": "@item().name"
+									}
 								}
 							],
 							"outputs": [
@@ -140,16 +151,25 @@
 									"referenceName": "ArchvieFiles_des_parquet",
 									"type": "DatasetReference",
 									"parameters": {
-										"fileName": "@item()"
+										"fileName": "@item().name"
 									}
 								}
 							]
+						},
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 2
+							}
 						}
 					]
 				}
 			},
 			{
-				"name": "Get Metadata1",
+				"name": "getmetadata_filename",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -162,12 +182,15 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "post_destination",
-						"type": "DatasetReference"
+						"referenceName": "post_destination_af",
+						"type": "DatasetReference",
+						"parameters": {
+							"@dataset().FileName": "*"
+						}
 					},
 					"fieldList": [
 						{
-							"value": "'.parquet'",
+							"value": "childItems",
 							"type": "Expression"
 						}
 					],
@@ -181,6 +204,11 @@
 				}
 			}
 		],
+		"parameters": {
+			"items": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2024-05-08T14:30:26Z"
 	},
