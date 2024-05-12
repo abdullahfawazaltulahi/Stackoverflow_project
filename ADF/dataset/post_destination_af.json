@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"@dataset().FileName": {
+			"file": {
 				"type": "string"
 			}
 		},

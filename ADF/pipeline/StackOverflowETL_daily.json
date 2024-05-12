@@ -84,7 +84,7 @@
 						"value": "@activity('getmetadata_filename').output.childItems",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Post11",
@@ -111,7 +111,8 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": ".parquet",
+										"wildcardFolderPath": " Landing / StackOverFlow-Post",
+										"wildcardFileName": "*.parquet",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -142,7 +143,7 @@
 									"referenceName": "post_destination_af",
 									"type": "DatasetReference",
 									"parameters": {
-										"@dataset().FileName": "@item().name"
+										"file": "@item().name"
 									}
 								}
 							],
@@ -151,7 +152,7 @@
 									"referenceName": "ArchvieFiles_des_parquet",
 									"type": "DatasetReference",
 									"parameters": {
-										"fileName": "@item().name"
+										"file": "@item().name"
 									}
 								}
 							]
@@ -162,7 +163,7 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"waitTimeInSeconds": 2
+								"waitTimeInSeconds": 1
 							}
 						}
 					]
@@ -185,7 +186,7 @@
 						"referenceName": "post_destination_af",
 						"type": "DatasetReference",
 						"parameters": {
-							"@dataset().FileName": "*"
+							"file": "*"
 						}
 					},
 					"fieldList": [
