@@ -1,0 +1,29 @@
+{
+	"name": "ArchvieFiles_des_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "my_blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{item().name}",
+					"type": "Expression"
+				},
+				"folderPath": "Archive/parquet",
+				"container": "stackoverflow-container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
