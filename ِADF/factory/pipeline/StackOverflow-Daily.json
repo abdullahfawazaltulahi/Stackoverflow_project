@@ -111,7 +111,10 @@
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
 										"wildcardFolderPath": "landing / posta",
-										"wildcardFileName": "*.parquet",
+										"wildcardFileName": {
+											"value": "@item()",
+											"type": "Expression"
+										},
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
