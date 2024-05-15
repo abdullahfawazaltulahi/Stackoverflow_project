@@ -165,7 +165,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"folderPath": {
-							"value": "landing / Archives/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+							"value": "Archives/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
 							"type": "Expression"
 						},
 						"container": "sof-data"
@@ -384,7 +384,7 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
-									"wildcardFileName": "*.parquet",
+									"wildcardFileName": "*.*",
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -394,8 +394,7 @@
 							"sink": {
 								"type": "ParquetSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "MergeFiles"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
 									"type": "ParquetWriteSettings"
@@ -469,7 +468,7 @@
 											"storeSettings": {
 												"type": "AzureBlobStorageReadSettings",
 												"recursive": true,
-												"wildcardFileName": "*.parquet",
+												"wildcardFileName": "*.*",
 												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
