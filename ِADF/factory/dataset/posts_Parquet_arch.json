@@ -5,16 +5,12 @@
 			"referenceName": "StackOverflow_blob",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"file": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "*.parquet",
 				"folderPath": "landing/posts",
 				"container": "sof-data"
 			},

@@ -27,6 +27,7 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "Posts_today",
 							"wildcardFileName": "*.parquet",
 							"enablePartitionDiscovery": false
 						},
@@ -139,13 +140,7 @@
 							"inputs": [
 								{
 									"referenceName": "posts_Parquet_arch",
-									"type": "DatasetReference",
-									"parameters": {
-										"file": {
-											"value": "@item().name",
-											"type": "Expression"
-										}
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
@@ -154,7 +149,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": {
-											"value": "@item().name",
+											"value": "@item()",
 											"type": "Expression"
 										}
 									}
@@ -188,10 +183,7 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "posts_Parquet_arch",
-						"type": "DatasetReference",
-						"parameters": {
-							"file": "*"
-						}
+						"type": "DatasetReference"
 					},
 					"fieldList": [
 						"childItems"
