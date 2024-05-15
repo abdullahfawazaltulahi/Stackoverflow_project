@@ -159,21 +159,15 @@
 					"referenceName": "StackOverflow_blob",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"filename": {
-						"type": "string"
-					}
-				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().filename",
+						"folderPath": {
+							"value": "landing / Archives/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
 							"type": "Expression"
 						},
-						"folderPath": "landing/Archives/parquet",
 						"container": "sof-data"
 					},
 					"compressionCodec": "snappy"
@@ -223,7 +217,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "*.parquet",
 						"folderPath": "Posts_today",
 						"container": "de-project-st"
 					},
@@ -349,7 +342,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "*.parquet",
 						"folderPath": "landing/posts",
 						"container": "sof-data"
 					},
@@ -392,7 +384,6 @@
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"recursive": true,
-									"wildcardFolderPath": "Posts_today",
 									"wildcardFileName": "*.parquet",
 									"enablePartitionDiscovery": false
 								},
@@ -478,7 +469,6 @@
 											"storeSettings": {
 												"type": "AzureBlobStorageReadSettings",
 												"recursive": true,
-												"wildcardFolderPath": "landing / posts",
 												"wildcardFileName": "*.parquet",
 												"enablePartitionDiscovery": false
 											},
@@ -516,12 +506,7 @@
 										{
 											"referenceName": "Archives_parquet",
 											"type": "DatasetReference",
-											"parameters": {
-												"filename": {
-													"value": "@item()",
-													"type": "Expression"
-												}
-											}
+											"parameters": {}
 										}
 									]
 								},
@@ -557,7 +542,7 @@
 							},
 							"fieldList": [
 								{
-									"value": "@pipeline().parameters.chileditem",
+									"value": "childItems",
 									"type": "Expression"
 								}
 							],
