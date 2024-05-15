@@ -1,0 +1,18 @@
+{
+	"name": "data visualization",
+	"properties": {
+		"description": "visualize the most 5 topics in the posts.",
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 5 *\nFROM\n    OPENROWSET(\n        BULK 'https://projectcapstonestorage.dfs.core.windows.net/capstoneprojectcontainer/BI/ml_result.csv',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0',\n        HEADER_ROW = TRUE\n\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
