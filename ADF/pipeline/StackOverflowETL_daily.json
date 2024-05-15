@@ -6,13 +6,17 @@
 				"name": "SOF-posts",
 				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Archvie_files_daily",
 						"dependencyConditions": [
 							"Succeeded"
+						]
+					},
+					{
+						"activity": "Fail1",
+						"dependencyConditions": [
+							"Failed"
 						]
 					}
 				],
@@ -70,11 +74,105 @@
 				]
 			},
 			{
+				"name": "Machine_Learning_Model",
+				"type": "DatabricksNotebook",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SOF-posts",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
+				},
+				"linkedServiceName": {
+					"referenceName": "ML_model",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "get",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "test",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "ParquetReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('get').output.exists",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "no file Archive",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 3
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "success File exist",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					]
+				}
+			},
+			{
 				"name": "Archvie_files_daily",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "getmetadata_filename",
+						"activity": "get",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -83,7 +181,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('getmetadata_filename').output.childItems",
+						"value": "@activity('get').output.exists",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -167,6 +265,8 @@
 			{
 				"name": "getmetadata_filename",
 				"type": "GetMetadata",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -185,7 +285,8 @@
 						{
 							"value": "childItems",
 							"type": "Expression"
-						}
+						},
+						"exists"
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
@@ -198,32 +299,20 @@
 				}
 			},
 			{
-				"name": "Machine_Learning_Model",
-				"type": "DatabricksNotebook",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
+				"name": "Fail1",
+				"type": "Fail",
 				"dependsOn": [
 					{
-						"activity": "SOF-posts",
+						"activity": "get",
 						"dependencyConditions": [
-							"Succeeded"
+							"Failed"
 						]
 					}
 				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
-				},
-				"linkedServiceName": {
-					"referenceName": "ML_model",
-					"type": "LinkedServiceReference"
+					"message": "fails to get  files ",
+					"errorCode": "2011"
 				}
 			}
 		],
