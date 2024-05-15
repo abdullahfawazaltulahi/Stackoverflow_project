@@ -1,5 +1,5 @@
 {
-	"name": "ArchvieFiles_des_parquet",
+	"name": "AFP",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "my_blob",
@@ -10,10 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": {
-					"value": "Archive/parquet/",
-					"type": "Expression"
-				},
+				"folderPath": "Archive/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
 				"container": "stackoverflow-container"
 			},
 			"compressionCodec": "snappy"

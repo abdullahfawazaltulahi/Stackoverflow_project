@@ -113,7 +113,6 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFolderPath": " Landing / StackOverFlow-Post",
 										"wildcardFileName": "*.parquet",
 										"enablePartitionDiscovery": false
 									},
@@ -148,7 +147,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "ArchvieFiles_des_parquet",
+									"referenceName": "AFP",
 									"type": "DatasetReference"
 								}
 							]

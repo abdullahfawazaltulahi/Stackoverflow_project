@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "*.parquet",
 				"folderPath": "Landing/StackOverFlow-Post",
 				"container": "stackoverflow-container"
 			},
