@@ -8,13 +8,13 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Set_variable_False",
+						"activity": "Archvie_files_daily",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					},
 					{
-						"activity": "Archvie_files_daily",
+						"activity": "Set_variable_False",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -130,47 +130,6 @@
 					"formatSettings": {
 						"type": "ParquetReadSettings"
 					}
-				}
-			},
-			{
-				"name": "if_con",
-				"type": "IfCondition",
-				"dependsOn": [
-					{
-						"activity": "get",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@activity('get').output.exists",
-						"type": "Expression"
-					},
-					"ifFalseActivities": [
-						{
-							"name": "false_file_not_exists",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 3
-							}
-						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "true_File_exist",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						}
-					]
 				}
 			},
 			{
@@ -326,7 +285,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ifConditionResult",
-					"value": "@if(equals(activity('if_con').PipelineName, 'true_File_exists'), true, false)\n"
+					"value": {
+						"value": "@equals(variables('check'),false)",
+						"type": "Expression"
+					}
 				}
 			},
 			{
@@ -347,7 +309,93 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ifConditionResult",
-					"value": "@if(equals(activity('if_con').PipelineName, 'true_File_exists'), true, false)\n"
+					"value": {
+						"value": "@equals(variables('check'),true)\n",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "if_con",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "get",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('get').output.exists",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "false_file_not_exists",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 3
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "false_file_not_exists",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "check",
+								"value": false
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "true_File_exist",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "true_File_exist",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "check",
+								"value": true
+							}
+						}
+					]
 				}
 			}
 		],
@@ -358,6 +406,9 @@
 		},
 		"variables": {
 			"ifConditionResult": {
+				"type": "Boolean"
+			},
+			"check": {
 				"type": "Boolean"
 			}
 		},
