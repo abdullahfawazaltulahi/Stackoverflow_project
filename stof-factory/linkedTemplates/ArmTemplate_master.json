@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "stof-factory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
+		"Posts_Public_blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Posts_Public_blob'"
+		},
+		"Poststypes_Users_RDS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Poststypes_Users_RDS'"
+		},
+		"StackOverflow_blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'StackOverflow_blob'"
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "de-rds.czm23kqmbd6o.ca-central-1.rds.amazonaws.com"
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "stack"
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "postgres"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "stof-factory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDatabricks1_accessToken": {
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"Posts_Public_blob_connectionString": {
+						"value": "[parameters('Posts_Public_blob_connectionString')]"
+					},
+					"Poststypes_Users_RDS_password": {
+						"value": "[parameters('Poststypes_Users_RDS_password')]"
+					},
+					"StackOverflow_blob_connectionString": {
+						"value": "[parameters('StackOverflow_blob_connectionString')]"
+					},
+					"Poststypes_Users_RDS_properties_typeProperties_server": {
+						"value": "[parameters('Poststypes_Users_RDS_properties_typeProperties_server')]"
+					},
+					"Poststypes_Users_RDS_properties_typeProperties_database": {
+						"value": "[parameters('Poststypes_Users_RDS_properties_typeProperties_database')]"
+					},
+					"Poststypes_Users_RDS_properties_typeProperties_username": {
+						"value": "[parameters('Poststypes_Users_RDS_properties_typeProperties_username')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

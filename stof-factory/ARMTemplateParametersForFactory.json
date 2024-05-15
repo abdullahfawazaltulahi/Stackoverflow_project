@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "stof-factory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"Posts_Public_blob_connectionString": {
+			"value": ""
+		},
+		"Poststypes_Users_RDS_password": {
+			"value": ""
+		},
+		"StackOverflow_blob_connectionString": {
+			"value": ""
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_server": {
+			"value": "de-rds.czm23kqmbd6o.ca-central-1.rds.amazonaws.com"
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_database": {
+			"value": "stack"
+		},
+		"Poststypes_Users_RDS_properties_typeProperties_username": {
+			"value": "postgres"
+		}
+	}
+}
