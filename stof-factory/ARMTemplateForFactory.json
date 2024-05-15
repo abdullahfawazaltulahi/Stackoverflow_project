@@ -82,7 +82,8 @@
 							"sink": {
 								"type": "ParquetSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
 								},
 								"formatSettings": {
 									"type": "ParquetWriteSettings"
@@ -156,11 +157,8 @@
 											"storeSettings": {
 												"type": "AzureBlobStorageReadSettings",
 												"recursive": true,
-												"wildcardFolderPath": "landing / posta",
-												"wildcardFileName": {
-													"value": "@item()",
-													"type": "Expression"
-												},
+												"wildcardFolderPath": "landing / posts",
+												"wildcardFileName": "*.parquet",
 												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
@@ -237,7 +235,10 @@
 								"parameters": {}
 							},
 							"fieldList": [
-								"childItems"
+								{
+									"value": "@pipeline().parameters.chileditem",
+									"type": "Expression"
+								}
 							],
 							"storeSettings": {
 								"type": "AzureBlobStorageReadSettings",
@@ -252,6 +253,14 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"chileditem": {
+						"type": "String"
+					},
+					"getMetadata": {
+						"type": "String"
+					}
 				},
 				"variables": {
 					"chileditem": {
