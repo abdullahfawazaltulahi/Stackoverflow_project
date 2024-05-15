@@ -6,6 +6,8 @@
 				"name": "SOF-posts",
 				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Archvie_files_daily",
@@ -141,19 +143,13 @@
 							"inputs": [
 								{
 									"referenceName": "post_destination_af",
-									"type": "DatasetReference",
-									"parameters": {
-										"file": "@item().name"
-									}
+									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
 									"referenceName": "ArchvieFiles_des_parquet",
-									"type": "DatasetReference",
-									"parameters": {
-										"file": "@item().name"
-									}
+									"type": "DatasetReference"
 								}
 							]
 						},
@@ -184,10 +180,7 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "post_destination_af",
-						"type": "DatasetReference",
-						"parameters": {
-							"file": "*"
-						}
+						"type": "DatasetReference"
 					},
 					"fieldList": [
 						{
@@ -208,7 +201,16 @@
 			{
 				"name": "Machine_Learning_Model",
 				"type": "DatabricksNotebook",
-				"dependsOn": [],
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [
+					{
+						"activity": "SOF-posts",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -217,6 +219,9 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
+				},
 				"linkedServiceName": {
 					"referenceName": "ML_model",
 					"type": "LinkedServiceReference"

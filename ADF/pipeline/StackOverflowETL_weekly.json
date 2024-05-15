@@ -6,6 +6,8 @@
 				"name": "Users",
 				"description": "this is the user data and connect to the PostGreSQL",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Archvie files Weekly",
@@ -63,6 +65,8 @@
 			{
 				"name": "Post_Type",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Archvie files Weekly",
@@ -182,10 +186,7 @@
 							"outputs": [
 								{
 									"referenceName": "ArchvieFiles_des",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": "@item()"
-									}
+									"type": "DatasetReference"
 								}
 							]
 						},
@@ -243,10 +244,7 @@
 							"outputs": [
 								{
 									"referenceName": "ArchvieFiles_des",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": "@item()"
-									}
+									"type": "DatasetReference"
 								}
 							]
 						}
