@@ -6,9 +6,20 @@
 				"name": "SOF-posts",
 				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set_variable_False",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Archvie_files_daily",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -165,8 +176,6 @@
 			{
 				"name": "Archvie_files_daily",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "getmetadata_filename",
@@ -262,9 +271,14 @@
 			{
 				"name": "getmetadata_filename",
 				"type": "GetMetadata",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set_variable_True",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -295,86 +309,7 @@
 				}
 			},
 			{
-				"name": "CheckForFilesInSourceBlobStorage",
-				"type": "Lookup",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [
-					{
-						"name": "childItems",
-						"value": "true"
-					}
-				],
-				"typeProperties": {
-					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "ParquetReadSettings"
-						}
-					},
-					"dataset": {
-						"referenceName": "post_destination_af",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": true
-				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": ""
-				}
-			},
-			{
-				"name": "filter_false",
-				"type": "Filter",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "no_file_Archive",
-						"type": "Expression"
-					},
-					"condition": {
-						"value": "@equals(item().column_name,'if_con')",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "filter_true",
-				"type": "Filter",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": []
-			},
-			{
-				"name": "Set variable2",
+				"name": "Set_variable_False",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -391,7 +326,28 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "ifConditionResult",
-					"value": "@if(activity('if_con').executedPipeline.name == 'false_file_not_exists', 'true', 'false')\n\n"
+					"value": "@if(equals(activity('if_con').PipelineName, 'true_File_exists'), true, false)\n"
+				}
+			},
+			{
+				"name": "Set_variable_True",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "if_con",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "ifConditionResult",
+					"value": "@if(equals(activity('if_con').PipelineName, 'true_File_exists'), true, false)\n"
 				}
 			}
 		],
