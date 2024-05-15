@@ -1,0 +1,26 @@
+{
+	"name": "posts_Parquet_arch",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "StackOverflow_blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "landing/posts",
+				"container": "sof-data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

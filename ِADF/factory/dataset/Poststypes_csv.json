@@ -1,0 +1,25 @@
+{
+	"name": "Poststypes_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "StackOverflow_blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "poststypes.csv",
+				"folderPath": "landing/poststype",
+				"container": "sof-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
