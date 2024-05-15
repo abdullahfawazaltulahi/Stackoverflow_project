@@ -6,17 +6,13 @@
 				"name": "SOF-posts",
 				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Archvie_files_daily",
+						"activity": "filter_false ",
 						"dependencyConditions": [
 							"Succeeded"
-						]
-					},
-					{
-						"activity": "Fail1",
-						"dependencyConditions": [
-							"Failed"
 						]
 					}
 				],
@@ -124,6 +120,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -132,11 +129,16 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "if_con",
 				"type": "IfCondition",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "get",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
@@ -145,7 +147,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "no file Archive",
+							"name": "no_file_Archive",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
@@ -170,9 +172,11 @@
 			{
 				"name": "Archvie_files_daily",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "get",
+						"activity": "getmetadata_filename",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -181,7 +185,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('get').output.exists",
+						"value": "@activity('getmetadata_filename').output.childItems",
 						"type": "Expression"
 					},
 					"isSequential": false,
@@ -285,8 +289,7 @@
 						{
 							"value": "childItems",
 							"type": "Expression"
-						},
-						"exists"
+						}
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
@@ -299,20 +302,95 @@
 				}
 			},
 			{
-				"name": "Fail1",
-				"type": "Fail",
+				"name": "CheckForFilesInSourceBlobStorage",
+				"type": "Lookup",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "childItems",
+						"value": "true"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "ParquetReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "post_destination_af",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			},
+			{
+				"name": "filter_false",
+				"type": "Filter",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "no_file_Archive",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().column_name,'if_con')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "filter_true",
+				"type": "Filter",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
+				"dependsOn": [],
+				"userProperties": []
+			},
+			{
+				"name": "Wait2",
+				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "get",
+						"activity": "if_con",
 						"dependencyConditions": [
-							"Failed"
+							"Succeeded"
 						]
 					}
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"message": "fails to get  files ",
-					"errorCode": "2011"
+					"waitTimeInSeconds": 1
 				}
 			}
 		],
