@@ -8,7 +8,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Check_User",
+						"activity": "User_condition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -65,7 +65,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Check_Post_Type",
+						"activity": "PT_condition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -118,138 +118,6 @@
 				]
 			},
 			{
-				"name": "Archvie files Weekly",
-				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"items": {
-						"value": "@split('user.csv,Post_Type.csv',',')",
-						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "Copy data post_type1111",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "PostType_destination",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "ArchvieFiles_des",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
-							"name": "Copy data user1111",
-							"type": "Copy",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "DelimitedTextSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
-									}
-								},
-								"sink": {
-									"type": "DelimitedTextSink",
-									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
-									},
-									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "User_destination",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "ArchvieFiles_des",
-									"type": "DatasetReference"
-								}
-							]
-						}
-					]
-				}
-			},
-			{
 				"name": "Check_User_files",
 				"type": "GetMetadata",
 				"dependsOn": [],
@@ -279,7 +147,7 @@
 				}
 			},
 			{
-				"name": "Check_User",
+				"name": "User_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -424,7 +292,7 @@
 				}
 			},
 			{
-				"name": "Check_Post_Type",
+				"name": "PT_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -582,7 +450,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "post_destination",
+						"referenceName": "PostType_destination",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -593,7 +461,7 @@
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
-						"type": "ParquetReadSettings"
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			}
