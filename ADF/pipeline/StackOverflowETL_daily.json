@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "get",
+				"name": "Check_files",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "test",
+						"referenceName": "post_destination",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -37,7 +37,7 @@
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "get",
+						"activity": "Check_files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -46,27 +46,27 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('get').output.exists,true)",
+						"value": "@equals(activity('Check_files').output.exists,true)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Wait2",
+							"name": "file_not_exist",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"waitTimeInSeconds": 1
+								"waitTimeInSeconds": 3
 							}
 						}
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Post11_copy1",
+							"name": "Archive_daily_Posts",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Wait1_copy1",
+									"activity": "File_exists",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -126,7 +126,7 @@
 							]
 						},
 						{
-							"name": "Wait1_copy1",
+							"name": "File_exists",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
@@ -135,11 +135,11 @@
 							}
 						},
 						{
-							"name": "Delete1",
+							"name": "Delete",
 							"type": "Delete",
 							"dependsOn": [
 								{
-									"activity": "Post11_copy1",
+									"activity": "Archive_daily_Posts",
 									"dependencyConditions": [
 										"Succeeded"
 									]
