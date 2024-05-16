@@ -1,9 +1,0 @@
-{
-	"name": "stof-factory",
-	"location": "eastus",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "93aa0b8b-2c21-44ab-9f6e-b89f52678f5e",
-		"tenantId": "13c2b828-4246-4ecb-8378-092d2d1e44e6"
-	}
-}
