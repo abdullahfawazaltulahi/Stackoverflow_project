@@ -179,11 +179,9 @@
 			{
 				"name": "Machine_Learning_Model_copy1",
 				"type": "DatabricksNotebook",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "SOF-posts_copy1",
+						"activity": "SOF-daily-posts",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -206,7 +204,7 @@
 				}
 			},
 			{
-				"name": "SOF-posts_copy1",
+				"name": "SOF-daily-posts",
 				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 				"type": "Copy",
 				"dependsOn": [

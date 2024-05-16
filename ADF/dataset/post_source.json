@@ -11,7 +11,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "archive",
+				"folderPath": "Posts_today",
 				"container": "de-project-st"
 			},
 			"compressionCodec": "snappy"
