@@ -139,6 +139,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -160,7 +161,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Check_User_files').output.exists,true)\r\n",
+						"value": "@equals(activity('Check_User_files').output.exists,true)\n",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -458,6 +459,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
