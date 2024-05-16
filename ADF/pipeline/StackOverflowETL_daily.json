@@ -3,106 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "SOF-posts",
-				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "Archvie_files_daily",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "Set_variable_False",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"wildcardFileName": "*.parquet",
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "ParquetReadSettings"
-						}
-					},
-					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "ParquetWriteSettings"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "post_source",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "post_destination",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
-				"name": "Machine_Learning_Model",
-				"type": "DatabricksNotebook",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "SOF-posts",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
-				},
-				"linkedServiceName": {
-					"referenceName": "ML_model",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
 				"name": "get",
 				"type": "GetMetadata",
 				"dependsOn": [],
@@ -133,11 +33,11 @@
 				}
 			},
 			{
-				"name": "Archvie_files_daily",
-				"type": "ForEach",
+				"name": "If Condition1",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "getmetadata_filename",
+						"activity": "get",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -145,18 +45,93 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@activity('getmetadata_filename').output.childItems",
+					"expression": {
+						"value": "@equals(activity('get').output.exists,true)",
 						"type": "Expression"
 					},
-					"isSequential": false,
-					"activities": [
+					"ifFalseActivities": [
 						{
-							"name": "Post11",
+							"name": "SOF-posts_copy2",
+							"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Wait1",
+									"activity": "Wait2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"wildcardFileName": "*.parquet",
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "ParquetReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "post_source",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "post_destination",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "Wait2",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Post11_copy1",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Wait1_copy1",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -216,23 +191,129 @@
 							]
 						},
 						{
-							"name": "Wait1",
+							"name": "Wait1_copy1",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"waitTimeInSeconds": 1
 							}
+						},
+						{
+							"name": "Delete1",
+							"type": "Delete",
+							"dependsOn": [
+								{
+									"activity": "Post11_copy1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "post_destination",
+									"type": "DatasetReference"
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "my_blob",
+										"type": "LinkedServiceReference"
+									},
+									"path": "capstoneprojectcontainer/landing/Posts logs"
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							}
+						},
+						{
+							"name": "SOF-posts_copy1",
+							"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Delete1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "ParquetSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"wildcardFileName": "*.parquet",
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "ParquetReadSettings"
+									}
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "post_source",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "post_destination",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}
 			},
 			{
-				"name": "getmetadata_filename",
-				"type": "GetMetadata",
+				"name": "Machine_Learning_Model_copy1",
+				"type": "DatabricksNotebook",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
-						"activity": "Set_variable_True",
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -247,163 +328,14 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "post_destination_af",
-						"type": "DatasetReference"
-					},
-					"fieldList": [
-						{
-							"value": "childItems",
-							"type": "Expression"
-						}
-					],
-					"storeSettings": {
-						"type": "AzureBlobStorageReadSettings",
-						"recursive": true,
-						"enablePartitionDiscovery": false
-					},
-					"formatSettings": {
-						"type": "ParquetReadSettings"
-					}
-				}
-			},
-			{
-				"name": "Set_variable_False",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "if_con",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
+					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
 				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ifConditionResult",
-					"value": {
-						"value": "@equals(variables('check'),false)",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Set_variable_True",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "if_con",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "ifConditionResult",
-					"value": {
-						"value": "@equals(variables('check'),true)\n",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "if_con",
-				"type": "IfCondition",
-				"dependsOn": [
-					{
-						"activity": "get",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@activity('get').output.exists",
-						"type": "Expression"
-					},
-					"ifFalseActivities": [
-						{
-							"name": "false_file_not_exists",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 3
-							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "false_file_not_exists",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "check",
-								"value": false
-							}
-						}
-					],
-					"ifTrueActivities": [
-						{
-							"name": "true_File_exist",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						},
-						{
-							"name": "Set variable2",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "true_File_exist",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "check",
-								"value": true
-							}
-						}
-					]
+				"linkedServiceName": {
+					"referenceName": "ML_model",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
-		"parameters": {
-			"items": {
-				"type": "String"
-			}
-		},
 		"variables": {
 			"ifConditionResult": {
 				"type": "Boolean"
