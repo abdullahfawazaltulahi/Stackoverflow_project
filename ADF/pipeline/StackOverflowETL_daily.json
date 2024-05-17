@@ -179,8 +179,6 @@
 			{
 				"name": "Machine_Learning_Model_copy1",
 				"type": "DatabricksNotebook",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "SOF-posts_copy1",
