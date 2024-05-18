@@ -16,10 +16,10 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@dataset().filename",
+					"value": "parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{dataset().filename}",
 					"type": "Expression"
 				},
-				"folderPath": "landing/Archives/parquet",
+				"folderPath": "Archives",
 				"container": "sof-data"
 			},
 			"compressionCodec": "snappy"

@@ -16,10 +16,10 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": {
-					"value": "@dataset().filename",
+					"value": "csv/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{dataset().filename}",
 					"type": "Expression"
 				},
-				"folderPath": "landing/Archives/CSV",
+				"folderPath": "Archives",
 				"container": "sof-data"
 			},
 			"columnDelimiter": ",",
