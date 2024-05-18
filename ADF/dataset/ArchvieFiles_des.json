@@ -5,12 +5,18 @@
 			"referenceName": "my_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Archive"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "Archive/csv/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+				"folderPath": {
+					"value": "Archive/csv/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+					"type": "Expression"
+				},
 				"container": "stackoverflow-container"
 			},
 			"columnDelimiter": ",",

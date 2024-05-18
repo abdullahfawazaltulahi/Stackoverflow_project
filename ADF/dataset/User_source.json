@@ -6,6 +6,9 @@
 			"referenceName": "RDS_db",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Sources"
+		},
 		"annotations": [],
 		"type": "PostgreSqlV2Table",
 		"schema": [],
