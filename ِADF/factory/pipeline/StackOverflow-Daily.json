@@ -27,7 +27,6 @@
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "Posts_today",
 							"wildcardFileName": "*.parquet",
 							"enablePartitionDiscovery": false
 						},
@@ -110,10 +109,7 @@
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
-										"wildcardFileName": {
-											"value": "@item()",
-											"type": "Expression"
-										},
+										"wildcardFileName": "*.parquet",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
@@ -192,7 +188,6 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
-						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
