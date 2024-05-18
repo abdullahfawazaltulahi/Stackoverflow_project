@@ -1,5 +1,5 @@
 {
-	"name": "posts_Parquet_arch",
+	"name": "posts_destination_arch",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "StackOverflow_blob",

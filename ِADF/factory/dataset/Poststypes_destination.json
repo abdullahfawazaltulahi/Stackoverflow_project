@@ -1,5 +1,5 @@
 {
-	"name": "Poststypes_csv",
+	"name": "Poststypes_destination",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "StackOverflow_blob",

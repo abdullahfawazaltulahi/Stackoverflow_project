@@ -49,13 +49,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Users_RDS",
+						"referenceName": "Users_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Users_csv",
+						"referenceName": "Users_destination",
 						"type": "DatasetReference"
 					}
 				]
@@ -106,13 +106,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Poststypes_RDS",
+						"referenceName": "Poststypes_source",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Poststypes_csv",
+						"referenceName": "Poststypes_destination",
 						"type": "DatasetReference"
 					}
 				]
@@ -188,7 +188,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "Users_csv",
+									"referenceName": "Users_destination",
 									"type": "DatasetReference"
 								}
 							],
@@ -252,7 +252,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "Poststypes_csv",
+									"referenceName": "Poststypes_destination",
 									"type": "DatasetReference"
 								}
 							],

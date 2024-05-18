@@ -1,5 +1,5 @@
 {
-	"name": "Users_csv",
+	"name": "Users_destination",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "StackOverflow_blob",

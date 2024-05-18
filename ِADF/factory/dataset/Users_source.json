@@ -1,5 +1,5 @@
 {
-	"name": "Users_RDS",
+	"name": "Users_source",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Poststypes_Users_RDS",
