@@ -5,12 +5,18 @@
 			"referenceName": "my_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Archive"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "Archive/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+				"folderPath": {
+					"value": "Archive/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+					"type": "Expression"
+				},
 				"container": "stackoverflow-container"
 			},
 			"compressionCodec": "snappy"

@@ -5,6 +5,9 @@
 			"referenceName": "my_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Archive"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

@@ -6,6 +6,9 @@
 			"referenceName": "wcd_public_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Sources"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
