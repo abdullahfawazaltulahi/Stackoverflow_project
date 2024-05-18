@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "*.parquet",
 				"folderPath": "Posts_today",
 				"container": "de-project-st"
 			},

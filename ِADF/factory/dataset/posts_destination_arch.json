@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "*.parquet",
 				"folderPath": "landing/posts",
 				"container": "sof-data"
 			},
