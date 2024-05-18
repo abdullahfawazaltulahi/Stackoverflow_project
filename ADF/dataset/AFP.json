@@ -1,0 +1,26 @@
+{
+	"name": "AFP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "my_blob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Archive"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "Archive/parquet/@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/",
+					"type": "Expression"
+				},
+				"container": "stackoverflow-container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

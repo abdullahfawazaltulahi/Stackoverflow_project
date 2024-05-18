@@ -1,0 +1,20 @@
+{
+	"name": "User_source",
+	"properties": {
+		"description": "here we have a User data from PostgreSQL  ",
+		"linkedServiceName": {
+			"referenceName": "RDS_db",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Sources"
+		},
+		"annotations": [],
+		"type": "PostgreSqlV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "raw_st",
+			"table": "users"
+		}
+	}
+}
