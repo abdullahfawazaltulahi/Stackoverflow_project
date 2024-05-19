@@ -5,6 +5,9 @@
 			"referenceName": "Poststypes_Users_RDS",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Air Flow/Source"
+		},
 		"annotations": [],
 		"type": "PostgreSqlV2Table",
 		"schema": [],

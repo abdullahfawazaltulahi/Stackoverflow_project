@@ -5,6 +5,9 @@
 			"referenceName": "Posts_Public_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Air Flow/Source"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

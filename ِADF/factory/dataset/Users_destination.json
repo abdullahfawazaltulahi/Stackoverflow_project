@@ -5,6 +5,9 @@
 			"referenceName": "StackOverflow_blob",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Air Flow/Destination"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
