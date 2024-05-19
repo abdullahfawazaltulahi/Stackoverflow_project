@@ -124,7 +124,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@split('users.csv,poststypes.csv',',')",
+						"value": "@split('users.csv,posttype.csv',',')",
 						"type": "Expression"
 					},
 					"isSequential": false,

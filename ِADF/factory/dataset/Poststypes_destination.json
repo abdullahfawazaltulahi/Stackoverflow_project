@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "poststypes.csv",
-				"folderPath": "landing/poststype",
+				"fileName": "posttype.csv",
+				"folderPath": "landing/posttype",
 				"container": "sof-data"
 			},
 			"columnDelimiter": ",",
