@@ -133,7 +133,7 @@
 										"referenceName": "StackOverflow_blob",
 										"type": "LinkedServiceReference"
 									},
-									"path": ""
+									"path": "sof-data/Logs/Posts logs"
 								},
 								"enableLogging": true,
 								"storeSettings": {

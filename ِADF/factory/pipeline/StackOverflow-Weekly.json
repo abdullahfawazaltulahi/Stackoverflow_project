@@ -329,7 +329,7 @@
 										"referenceName": "StackOverflow_blob",
 										"type": "LinkedServiceReference"
 									},
-									"path": ""
+									"path": "sof-data/Logs/postType logs"
 								},
 								"enableLogging": true,
 								"storeSettings": {
@@ -474,7 +474,7 @@
 										"referenceName": "StackOverflow_blob",
 										"type": "LinkedServiceReference"
 									},
-									"path": ""
+									"path": "sof-data/Logs/Users logs"
 								},
 								"enableLogging": true,
 								"storeSettings": {
