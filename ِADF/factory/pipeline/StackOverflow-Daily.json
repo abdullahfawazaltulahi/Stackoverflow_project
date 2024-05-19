@@ -144,7 +144,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Check_files').output.exists,true)",
+						"value": "@equals(activity('Check_files').output.exists, true)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
@@ -197,7 +197,7 @@
 										"referenceName": "StackOverflow_blob",
 										"type": "LinkedServiceReference"
 									},
-									"path": "sof-data/Logs/Posts logs"
+									"path": ""
 								},
 								"enableLogging": true,
 								"storeSettings": {
@@ -296,7 +296,6 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
-						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -327,14 +326,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"chileditem": {
-				"type": "String"
-			},
-			"getMetadata": {
-				"type": "String"
-			}
-		},
 		"annotations": [],
 		"lastPublishTime": "2024-05-14T13:58:17Z"
 	},
