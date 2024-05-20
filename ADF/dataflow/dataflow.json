@@ -1,0 +1,49 @@
+{
+	"name": "dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "post_source",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          AcceptedAnswerId as integer,",
+				"          AnswerCount as integer,",
+				"          Body as string,",
+				"          CommentCount as integer,",
+				"          CreationDate as date,",
+				"          FavoriteCount as integer,",
+				"          LastEditDate as date,",
+				"          LastEditorDisplayName as string,",
+				"          LastEditorUserId as integer,",
+				"          OwnerUserId as integer,",
+				"          ParentId as integer,",
+				"          PostTypeId as integer,",
+				"          Score as float,",
+				"          Tags as string,",
+				"          Title as string,",
+				"          ViewCount as integer",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
+				"source1 derive() ~> derivedColumn1"
+			]
+		}
+	}
+}
