@@ -3,7 +3,38 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Check_files",
+				"name": "SOF Daily Post",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "PT_condition",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Check_PT_files",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +47,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "post_destination",
+						"referenceName": "PostType_destination",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -28,16 +59,16 @@
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
-						"type": "ParquetReadSettings"
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "PT_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Check_files",
+						"activity": "Check_PT_files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -46,12 +77,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Check_files').output.exists,true)",
+						"value": "@equals(activity('Check_PT_files').output.exists,true)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
 						{
-							"name": "file_not_exist",
+							"name": "Post_Type_file_Not_exist",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
@@ -62,71 +93,7 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Archive_daily_Posts",
-							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "File_exists",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "ParquetSource",
-									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"wildcardFileName": "*.parquet",
-										"enablePartitionDiscovery": false
-									},
-									"formatSettings": {
-										"type": "ParquetReadSettings"
-									}
-								},
-								"sink": {
-									"type": "ParquetSink",
-									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
-									},
-									"formatSettings": {
-										"type": "ParquetWriteSettings"
-									}
-								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "post_destination_af",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "AFP",
-									"type": "DatasetReference"
-								}
-							]
-						},
-						{
-							"name": "File_exists",
+							"name": "Post_Type_file_exist",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
@@ -135,11 +102,11 @@
 							}
 						},
 						{
-							"name": "Delete",
+							"name": "Delete_post_type_files",
 							"type": "Delete",
 							"dependsOn": [
 								{
-									"activity": "Archive_daily_Posts",
+									"activity": "post_type_file_Archive",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -155,7 +122,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "post_destination",
+									"referenceName": "PostType_destination",
 									"type": "DatasetReference"
 								},
 								"logStorageSettings": {
@@ -163,7 +130,7 @@
 										"referenceName": "my_blob",
 										"type": "LinkedServiceReference"
 									},
-									"path": "capstoneprojectcontainer/landing/Posts logs"
+									"path": "stackoverflow-container/Logs"
 								},
 								"enableLogging": true,
 								"storeSettings": {
@@ -172,6 +139,71 @@
 									"enablePartitionDiscovery": false
 								}
 							}
+						},
+						{
+							"name": "post_type_file_Archive",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Post_Type_file_exist",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "PostType_destination",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ArchvieFiles_des",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}

@@ -6,38 +6,40 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "post_source",
+						"referenceName": "source_date",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "sourcedata"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "destination_validate",
+						"type": "DatasetReference"
+					},
+					"name": "destinationdata"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          id as integer,",
-				"          AcceptedAnswerId as integer,",
-				"          AnswerCount as integer,",
-				"          Body as string,",
-				"          CommentCount as integer,",
-				"          CreationDate as date,",
-				"          FavoriteCount as integer,",
-				"          LastEditDate as date,",
-				"          LastEditorDisplayName as string,",
-				"          LastEditorUserId as integer,",
-				"          OwnerUserId as integer,",
-				"          ParentId as integer,",
-				"          PostTypeId as integer,",
-				"          Score as float,",
-				"          Tags as string,",
-				"          Title as string,",
-				"          ViewCount as integer",
+				"          id as short,",
+				"          type as string",
 				"     ),",
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'parquet') ~> source1"
+				"     ignoreNoFilesFound: false) ~> sourcedata",
+				"sourcedata sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          type as string",
+				"     ),",
+				"     partitionFileNames:['PostType.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> destinationdata"
 			]
 		}
 	}
