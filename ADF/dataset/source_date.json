@@ -1,0 +1,36 @@
+{
+	"name": "source_date",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "validate",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "validation"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Post_Type.csv",
+				"folderPath": "we_cloud_source",
+				"container": "stackoverflow-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "type",
+				"type": "String"
+			}
+		]
+	}
+}
