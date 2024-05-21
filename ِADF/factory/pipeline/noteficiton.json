@@ -21,8 +21,6 @@
 			{
 				"name": "Successed",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Execute_daily_pipeline",
@@ -40,14 +38,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"method": "POST"
+					"method": "POST",
+					"url": "\thttps://dummy.restapiexample.com/api/v1/create",
+					"body": {
+						"value": "@activity('Execute_daily_pipeline').output.pipelineReturnValue",
+						"type": "Expression"
+					}
 				}
 			},
 			{
 				"name": "Failed",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Execute_daily_pipeline",
@@ -65,7 +66,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": {
+					"method": "POST",
+					"url": "\thttps://dummy.restapiexample.com/api/v1/create",
+					"body": {
 						"value": "@activity('Execute_daily_pipeline').output.pipelineReturnValue",
 						"type": "Expression"
 					}
