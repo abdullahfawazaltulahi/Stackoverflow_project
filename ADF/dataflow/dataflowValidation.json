@@ -26,9 +26,7 @@
 			"scriptLines": [
 				"source(output(",
 				"          id as short,",
-				"          name as string,",
-				"          type as string,",
-				"          age as short",
+				"          type as string",
 				"     ),",
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
@@ -40,7 +38,11 @@
 				"          type as string",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          id,",
+				"          type",
+				"     )) ~> sink1"
 			]
 		}
 	}
