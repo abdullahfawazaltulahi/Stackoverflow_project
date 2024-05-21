@@ -9,6 +9,12 @@
 					"referenceName": "StackOverflow-Daily",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "noteficiton",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
