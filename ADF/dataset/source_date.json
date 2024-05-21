@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "user.csv",
+				"fileName": "posttype.csv",
 				"folderPath": "we_cloud_source",
 				"container": "stackoverflow-container"
 			},
