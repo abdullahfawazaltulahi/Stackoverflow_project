@@ -1,0 +1,26 @@
+{
+	"name": "SOF-airflow",
+	"properties": {
+		"type": "Airflow",
+		"typeProperties": {
+			"computeProperties": {
+				"location": "East US",
+				"computeSize": "Small",
+				"extraNodes": 0,
+				"enableAutoscale": false
+			},
+			"airflowProperties": {
+				"airflowVersion": "2.6.3",
+				"airflowEnvironmentVariables": null,
+				"airflowRequirements": [],
+				"enableAADIntegration": false,
+				"enableTriggerers": false,
+				"userName": "ahad",
+				"password": null,
+				"airflowEntityReferences": [],
+				"encryptedSecrets": [],
+				"secrets": null
+			}
+		}
+	}
+}
