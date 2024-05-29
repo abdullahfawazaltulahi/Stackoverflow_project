@@ -30,11 +30,13 @@ The project will focus on how to deal with different integration sources and how
 # Data Ingestion:
   - Establish a connection to AWS RDS Postgres database and ingest "Users" and "PostTypes" tables into Azure Data Lake.
   - Connect to Azure Storage Blob container and ingest daily "Posts" data files in Parquet format, ensuring that the data is updated continuously.
+<img width="576" alt="data ingestion" src="https://github.com/abdullahfawazaltulahi/Stackoverflow_project/assets/63244923/d4b05e8e-8dcb-458a-9de8-983055685107">
 
 # Data Transformation:
 Create a Databricks notebook to perform the following operations continuously:
   - Data cleaning and transformation to prepare the data for machine learning.
   - Develop a machine learning model to classify the topics of StackOverflow posts based on their text content, with continuous updates to the model.
+<img width="573" alt="data transformation" src="https://github.com/abdullahfawazaltulahi/Stackoverflow_project/assets/63244923/0d2e09ed-9e66-4f23-990c-3544bdc4aab4">
 
 # Data Visualization:
 Utilize Azure Synapse to connect to the Data Lake and generate a chart that displays the top 10 topics of the day, updated continuously.
