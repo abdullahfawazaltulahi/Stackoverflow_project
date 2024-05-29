@@ -91,10 +91,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "t",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			},
