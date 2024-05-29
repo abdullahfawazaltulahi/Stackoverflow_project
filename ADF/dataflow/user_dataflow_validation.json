@@ -57,7 +57,7 @@
 				"          websiteurl as string,",
 				"          accountid as string",
 				"     ),",
-				"     filePattern:'user.csv',",
+				"     partitionFileNames:['user.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
@@ -76,7 +76,8 @@
 				"          views,",
 				"          websiteurl,",
 				"          accountid",
-				"     )) ~> USERdestination"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> USERdestination"
 			]
 		}
 	}

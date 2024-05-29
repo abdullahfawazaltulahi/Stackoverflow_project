@@ -180,6 +180,8 @@
 			{
 				"name": "PT_condition",
 				"type": "IfCondition",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Check_PT_files",
@@ -325,6 +327,8 @@
 			{
 				"name": "Check_PT_files",
 				"type": "GetMetadata",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -386,6 +390,8 @@
 			{
 				"name": "SOF Post_type",
 				"type": "ExecuteDataFlow",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "PT_condition",
