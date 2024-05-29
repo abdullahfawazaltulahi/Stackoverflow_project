@@ -3,6 +3,64 @@
 	"properties": {
 		"activities": [
 			{
+				"name": "SOF Daily Post",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Post_condition",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Post_dataflow_Validation",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Machine_Learning_Model_copy1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "SOF Daily Post",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
+				},
+				"linkedServiceName": {
+					"referenceName": "ML_model",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
 				"name": "Check_files",
 				"type": "GetMetadata",
 				"dependsOn": [],
@@ -33,7 +91,7 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "Post_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -175,110 +233,8 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "Machine_Learning_Model_copy1",
-				"type": "DatabricksNotebook",
-				"dependsOn": [
-					{
-						"activity": "SOF-daily-posts",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
-				},
-				"linkedServiceName": {
-					"referenceName": "ML_model",
-					"type": "LinkedServiceReference"
-				}
-			},
-			{
-				"name": "SOF-daily-posts",
-				"description": "this activity connect to the azure public blob, and the destination to the blob storage container : Posts",
-				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "If Condition1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"source": {
-						"type": "ParquetSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"wildcardFileName": "*.parquet",
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "ParquetReadSettings"
-						}
-					},
-					"sink": {
-						"type": "ParquetSink",
-						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
-						},
-						"formatSettings": {
-							"type": "ParquetWriteSettings"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "post_source",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "post_destination",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		],
-		"variables": {
-			"ifConditionResult": {
-				"type": "Boolean"
-			},
-			"check": {
-				"type": "Boolean"
-			}
-		},
-		"annotations": [],
-		"lastPublishTime": "2024-05-08T14:30:26Z"
-	},
-	"type": "Microsoft.DataFactory/factories/pipelines"
+		"annotations": []
+	}
 }

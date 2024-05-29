@@ -1,0 +1,84 @@
+{
+	"name": "user_dataflow_validation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "source_user",
+						"type": "DatasetReference"
+					},
+					"name": "USERsource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dest_user",
+						"type": "DatasetReference"
+					},
+					"name": "USERdestination"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          age as string,",
+				"          creationdate as string,",
+				"          displayname as string,",
+				"          downvotes as short,",
+				"          emailhash as string,",
+				"          location as string,",
+				"          reputation as integer,",
+				"          upvotes as short,",
+				"          views as short,",
+				"          websiteurl as string,",
+				"          accountid as integer",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     preferredIntegralType: 'integer') ~> USERsource",
+				"USERsource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          age as string,",
+				"          creationdate as string,",
+				"          displayname as string,",
+				"          downvotes as string,",
+				"          emailhash as string,",
+				"          location as string,",
+				"          reputation as string,",
+				"          upvotes as string,",
+				"          views as string,",
+				"          websiteurl as string,",
+				"          accountid as string",
+				"     ),",
+				"     partitionFileNames:['user.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          id,",
+				"          age,",
+				"          creationdate,",
+				"          displayname,",
+				"          downvotes,",
+				"          emailhash,",
+				"          location,",
+				"          reputation,",
+				"          upvotes,",
+				"          views,",
+				"          websiteurl,",
+				"          accountid",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> USERdestination"
+			]
+		}
+	}
+}

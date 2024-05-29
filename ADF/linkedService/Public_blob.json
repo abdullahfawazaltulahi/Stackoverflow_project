@@ -1,0 +1,10 @@
+{
+	"name": "Public_blob",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://stackoverflowlake.dfs.core.windows.net/"
+		}
+	}
+}

@@ -1,0 +1,36 @@
+{
+	"name": "source_pt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Public_blob",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "validation"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Post_Type.csv",
+				"folderPath": "we_cloud_source",
+				"fileSystem": "stackoverflow-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "type",
+				"type": "String"
+			}
+		]
+	}
+}
