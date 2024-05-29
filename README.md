@@ -54,5 +54,7 @@ whether the execution pipeline succeeds or fails.
 - Handling schema Changes: In certain circumstances, we must map the required columns 
 and use the data flow's validate schema option to prevent the schema for our product from 
 changing.
+## Coming Feature:
+- Our team is developing a Change Data Capture (CDC) technique which is a new feature in Azure Data Factory to track and capture modifications within datasets. This solution will efficiently deliver these changes to downstream pipelines promptly.
 ## Project Status:
 Please note that this project is currently in progress and is undergoing continuous development. The data ingestion, transformation, and visualization processes are designed to run continuously, ensuring that the insights and visualizations provided are always up-to-date.
