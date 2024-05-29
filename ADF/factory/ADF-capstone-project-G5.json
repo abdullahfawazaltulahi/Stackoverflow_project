@@ -1,9 +1,0 @@
-{
-	"name": "ADF-capstone-project-G5",
-	"location": "eastus",
-	"identity": {
-		"type": "SystemAssigned",
-		"principalId": "33ed7dca-bf07-4b11-8c51-b2b6326c437f",
-		"tenantId": "a1c157fc-c5a2-48f0-a647-8877103ed09c"
-	}
-}
