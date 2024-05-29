@@ -1,0 +1,13 @@
+{
+	"name": "validate",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "testing for validation schema before load it ",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=stackoverflowlake;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDMxMjZEREQ1LTBBNjgtNEI1Mi04QzQ0LThBREZCQkYwRDJFNF9hYzdmNGU4Ni1hZjllLTQzYTQtYThmZC1lOTJlNjE1Y2VlN2QiDQp9"
+		}
+	}
+}

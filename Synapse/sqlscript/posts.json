@@ -1,0 +1,18 @@
+{
+	"name": "posts",
+	"properties": {
+		"description": "visualize posts before do ML",
+		"content": {
+			"query": "SELECT\n    TOP 5 *\nFROM\n    OPENROWSET(\n        BULK 'https://projectcapstonestorage.dfs.core.windows.net/capstoneprojectcontainer/csv_posts/posts.csv',\n        FORMAT = 'CSV',\n        PARSER_VERSION = '2.0',\n        HEADER_ROW = TRUE\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

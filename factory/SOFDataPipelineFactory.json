@@ -1,0 +1,9 @@
+{
+	"name": "SOFDataPipelineFactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b67b1599-0833-4e97-bbd3-6800eab8ef5e",
+		"tenantId": "f9a3d943-46e9-43e7-80a8-c300a852c4ee"
+	}
+}
