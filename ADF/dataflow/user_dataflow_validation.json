@@ -1,0 +1,19 @@
+{
+	"name": "user_dataflow_validation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "USERsource"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> USERsource"
+			]
+		}
+	}
+}

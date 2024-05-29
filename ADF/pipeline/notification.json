@@ -92,7 +92,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "StackOverflowETL_daily",
+						"referenceName": "t",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
@@ -168,7 +168,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Validation schena",
+						"referenceName": "StackOverflowETL_daily",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

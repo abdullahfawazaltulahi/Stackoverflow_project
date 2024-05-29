@@ -1,5 +1,5 @@
 {
-	"name": "Validation schena",
+	"name": "StackOverflowETL_daily",
 	"properties": {
 		"activities": [
 			{
@@ -7,7 +7,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "PT_condition",
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -23,7 +23,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow",
+						"referenceName": "Post_dataflow_Validation",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -34,7 +34,34 @@
 				}
 			},
 			{
-				"name": "Check_PT_files",
+				"name": "Machine_Learning_Model_copy1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "SOF Daily Post",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/xavei.15-6@hotmail.com/Stackoverflow_project/ADF/databricks/Model Deployment"
+				},
+				"linkedServiceName": {
+					"referenceName": "ML_model",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Check_files",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -47,7 +74,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "PostType_destination",
+						"referenceName": "post_destination",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -59,16 +86,16 @@
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
-						"type": "DelimitedTextReadSettings"
+						"type": "ParquetReadSettings"
 					}
 				}
 			},
 			{
-				"name": "PT_condition",
+				"name": "If Condition1",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
-						"activity": "Check_PT_files",
+						"activity": "Check_files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -77,12 +104,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('Check_PT_files').output.exists,true)",
+						"value": "@equals(activity('Check_files').output.exists,true)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Post_Type_file_Not_exist",
+							"name": "file_not_exist",
 							"type": "Wait",
 							"dependsOn": [],
 							"userProperties": [],
@@ -93,59 +120,11 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Post_Type_file_exist",
-							"type": "Wait",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitTimeInSeconds": 1
-							}
-						},
-						{
-							"name": "Delete_post_type_files",
-							"type": "Delete",
-							"dependsOn": [
-								{
-									"activity": "post_type_file_Archive",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"timeout": "0.12:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"dataset": {
-									"referenceName": "PostType_destination",
-									"type": "DatasetReference"
-								},
-								"logStorageSettings": {
-									"linkedServiceName": {
-										"referenceName": "my_blob",
-										"type": "LinkedServiceReference"
-									},
-									"path": "stackoverflow-container/Logs"
-								},
-								"enableLogging": true,
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								}
-							}
-						},
-						{
-							"name": "post_type_file_Archive",
+							"name": "Archive_daily_Posts",
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Post_Type_file_exist",
+									"activity": "File_exists",
 									"dependencyConditions": [
 										"Succeeded"
 									]
@@ -161,25 +140,24 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "ParquetSource",
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
 										"recursive": true,
+										"wildcardFileName": "*.parquet",
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "ParquetReadSettings"
 									}
 								},
 								"sink": {
-									"type": "DelimitedTextSink",
+									"type": "ParquetSink",
 									"storeSettings": {
 										"type": "AzureBlobStorageWriteSettings"
 									},
 									"formatSettings": {
-										"type": "DelimitedTextWriteSettings",
-										"quoteAllText": true,
-										"fileExtension": ".txt"
+										"type": "ParquetWriteSettings"
 									}
 								},
 								"enableStaging": false,
@@ -194,16 +172,64 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "PostType_destination",
+									"referenceName": "post_destination_af",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ArchvieFiles_des",
+									"referenceName": "AFP",
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "File_exists",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 1
+							}
+						},
+						{
+							"name": "Delete",
+							"type": "Delete",
+							"dependsOn": [
+								{
+									"activity": "Archive_daily_Posts",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "post_destination",
+									"type": "DatasetReference"
+								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "my_blob",
+										"type": "LinkedServiceReference"
+									},
+									"path": "capstoneprojectcontainer/landing/Posts logs"
+								},
+								"enableLogging": true,
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							}
 						}
 					]
 				}

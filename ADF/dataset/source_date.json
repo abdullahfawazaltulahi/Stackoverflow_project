@@ -2,7 +2,7 @@
 	"name": "source_date",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "validate",
+			"referenceName": "wcd_public_blob",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
