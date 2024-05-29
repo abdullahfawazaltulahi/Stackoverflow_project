@@ -2,7 +2,7 @@
 	"name": "RDS_db",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
-		"description": "here for this link service we define the server name and for ssh mode we allowed that will give us Secure Remote Access and secure data transfer between Azure Data Factory and the target server and we want to build Secure Configuration that ensure that only authorized users can access the target server and perform actions within Azure Data Factory.",
+		"description": "This source we will ingest post_type from it ",
 		"annotations": [],
 		"type": "PostgreSqlV2",
 		"typeProperties": {
