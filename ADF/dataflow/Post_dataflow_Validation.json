@@ -1,5 +1,5 @@
 {
-	"name": "dataflowValidation",
+	"name": "Post_dataflow_Validation",
 	"properties": {
 		"description": "here it should Validate the Schema of data that Come from Source ",
 		"type": "MappingDataFlow",
@@ -7,42 +7,71 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "source_date",
+						"referenceName": "post_source",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "POSTsource"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "destination_validate",
+						"referenceName": "post_destination",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "POSTdestination"
 				}
 			],
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          id as short,",
-				"          type as string,",
-				"          ans as boolean,",
-				"          gander as string",
+				"          id as integer,",
+				"          AcceptedAnswerId as integer,",
+				"          AnswerCount as integer,",
+				"          Body as string,",
+				"          CommentCount as integer,",
+				"          CreationDate as date,",
+				"          FavoriteCount as integer,",
+				"          LastEditDate as date,",
+				"          LastEditorDisplayName as string,",
+				"          LastEditorUserId as integer,",
+				"          OwnerUserId as integer,",
+				"          ParentId as integer,",
+				"          PostTypeId as integer,",
+				"          Score as float,",
+				"          Tags as string,",
+				"          Title as string,",
+				"          ViewCount as integer",
 				"     ),",
 				"     allowSchemaDrift: false,",
 				"     validateSchema: true,",
 				"     ignoreNoFilesFound: false,",
-				"     maxColumns: 4) ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     format: 'parquet') ~> POSTsource",
+				"POSTsource sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          id as string,",
-				"          type as string",
-				"     ),",
+				"     format: 'parquet',",
 				"     filePattern:'pt.csv',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          id,",
+				"          AcceptedAnswerId,",
+				"          AnswerCount,",
+				"          Body,",
+				"          CommentCount,",
+				"          CreationDate,",
+				"          FavoriteCount,",
+				"          LastEditDate,",
+				"          LastEditorDisplayName,",
+				"          LastEditorUserId,",
+				"          OwnerUserId,",
+				"          ParentId,",
+				"          PostTypeId,",
+				"          Score,",
+				"          Tags,",
+				"          Title,",
+				"          ViewCount",
+				"     )) ~> POSTdestination"
 			]
 		}
 	}
