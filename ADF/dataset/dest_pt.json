@@ -1,5 +1,5 @@
 {
-	"name": "source_pt",
+	"name": "dest_pt",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Public_blob",
@@ -13,8 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Post_Type.csv",
-				"folderPath": "we_cloud_source",
+				"folderPath": "Landing/StackOverFlow-PostType",
 				"fileSystem": "stackoverflow-container"
 			},
 			"columnDelimiter": ",",

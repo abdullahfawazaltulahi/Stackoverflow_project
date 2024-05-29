@@ -3,11 +3,50 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "source_pt",
+						"type": "DatasetReference"
+					},
+					"name": "PTsource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "dest_pt",
+						"type": "DatasetReference"
+					},
+					"name": "PTdestination"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          id as integer,",
+				"          type as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     preferredIntegralType: 'integer') ~> PTsource",
+				"PTsource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          type as string",
+				"     ),",
+				"     filePattern:'post_type.csv',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          id,",
+				"          type",
+				"     )) ~> PTdestination"
 			]
 		}
 	}

@@ -7,7 +7,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "If Condition1",
+						"activity": "Post_condition",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -91,7 +91,7 @@
 				}
 			},
 			{
-				"name": "If Condition1",
+				"name": "Post_condition",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
